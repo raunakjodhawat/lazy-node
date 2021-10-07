@@ -1,0 +1,27 @@
+{
+  "name": "lazy-node",
+  "version": "0.0.1",
+  "description": "Making hidden features of NodeJS accessible to the developer community",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raunakjodhawat/lazy-node.git"
+  },
+  "keywords": [
+    "nodejs",
+    "queues",
+    "buffers",
+    "console",
+    "debug",
+    "diagnostic"
+  ],
+  "author": "Raunak Jodhawat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raunakjodhawat/lazy-node/issues"
+  },
+  "homepage": "https://github.com/raunakjodhawat/lazy-node#readme"
+}
