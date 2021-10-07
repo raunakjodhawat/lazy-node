@@ -1,5 +1,6 @@
 {
   "name": "lazy-node",
+  "type": "module",
   "version": "0.0.1",
   "description": "Making hidden features of NodeJS accessible to the developer community",
   "main": "index.js",
