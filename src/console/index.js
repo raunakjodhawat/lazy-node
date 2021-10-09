@@ -1,6 +1,8 @@
 import { Console } from 'console';
 import * as fs from 'fs';
 
+import { consoleConstant } from '../constants/index.js';
+
 export default class Logger {
     constructor({
         name = "",
@@ -35,8 +37,8 @@ export default class Logger {
             warn: true,
             trace: true
         },
-        outputFileName = './stdout.log',
-        errorOutputFileName = './stderr.log'
+        outputFileName = consoleConstant.outputFileName,
+        errorOutputFileName = consoleConstant.errorOutputFileName
     }) {
         this.name = name;
         this.toLogInFile = toLogInFile;
