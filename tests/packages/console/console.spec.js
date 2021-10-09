@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import Logger from '../../../src/console/index.js';
 import { consoleConstant } from '../../../src/constants/index.js';
-import { deleteFile } from '../../utils/index.js';
+import { deleteFile, randomBoolean } from '../../utils/index.js';
 
 const customOutputFileName = './tests/packages/console/out.log';
 const customErrorOutputFileName = './tests/packages/console/error.log';
@@ -48,4 +48,21 @@ describe('Packages:Console:Log', () => {
     expect(logger.toLogInFile[functionName]).toBe(true);
     });
   });
+
+  test('[custom values of toLogInFile]', () => {
+    
+    const customToLogInFile = {
+      log: randomBoolean(),
+      error: randomBoolean(),
+      debug: randomBoolean(),
+      info: randomBoolean(),
+      warn: randomBoolean(),
+      trace: randomBoolean(),
+    }
+
+    const logger = new Logger({toLogInFile: customToLogInFile});
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.toLogInFile[functionName]).toBe(customToLogInFile[functionName]);
+      });
+    });
 });

@@ -7,6 +7,10 @@ const deleteFile = (fileName) => {
     }
 }
 
+const randomBoolean = () => {
+    return (Math.floor(Math.random() * 2) % 2 == 0);
+}
 export {
-    deleteFile
+    deleteFile,
+    randomBoolean
 }
