@@ -29,6 +29,7 @@ describe('Packages:Console:Log', () => {
 
   test('[default outputFileName & errorOutputFileName filenames]', () => {
     new Logger({ name: 'l2' });
+    console.log(fs.accessSync(consoleConstant.outputFileName, fs.R_OK | fs.W_OK));
     expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
     expect(fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
   });
