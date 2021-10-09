@@ -1,5 +1,5 @@
 {
-  "name": "lazy-node",
+  "name": "@raunakjodhawat/lazy-node",
   "type": "module",
   "version": "0.0.1",
   "description": "Making hidden features of NodeJS accessible to the developer community",

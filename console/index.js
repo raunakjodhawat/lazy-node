@@ -2,7 +2,7 @@ import { Console } from 'console';
 import * as fs from 'fs';
 
 export default class Logger {
-    constructor(name, toLogInFile, toDisplayInConsole, outputFileName, errorOutputFileName) {
+    constructor(name, toLogInFile = true, toDisplayInConsole = false, outputFileName, errorOutputFileName) {
         this.toLogInFile = toLogInFile;
         this.toDisplayInConsole = toDisplayInConsole;
         this.output = fs.createWriteStream(outputFileName ? outputFileName : './stdout.log', {flags:'a+'});
@@ -47,8 +47,12 @@ export default class Logger {
     }
 
     // Support for multi-message
-    warn () {
-
+    warn (message, toLogInFile = this.toLogInFile, toDisplayInConsole = this.toDisplayInConsole) {
+        const printMessage = this.getMessage("warn", message);
+        if(toLogInFile)
+            this.logger.warn(printMessage);
+        if(toDisplayInConsole)
+            console.warn(printMessage);
     }
     // withtrace
     table() {
@@ -58,6 +62,5 @@ export default class Logger {
     assert() {
 
     }
-
 
 }
