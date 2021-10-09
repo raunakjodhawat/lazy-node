@@ -1,35 +1,26 @@
 import * as diagnostics_channel from 'diagnostics_channel';
 import { isNonEmptyString } from './utility.js';
 
-const preCheck = (channelName) => {
-    if(isNonEmptyString(channelName)) {
-        return new Error('Channel name can not be empty');
+export default class Channel {
+    constructor(channelName) {
+        if(isNonEmptyString(channelName)) {
+            return new Error('Channel name can not be empty');
+        }
+        this.channelName = channelName;
+        this.ch = diagnostics_channel.channel(channelName);
     }
-}
-const channel = (channelName) => {
-    preCheck(channelName);
-    diagnostics_channel.channel(channelName);
 
-}
+    hasSubscribers = () => {
+        return this.ch.hasSubscribers;
+    }
 
-const hasSubscribers = (channelName) => {
-    preCheck(channelName);
-    return diagnostics_channel.channel(channelName).hasSubscribers;
-}
+    subscribe = (cb) => {
+        this.ch.subscribe((message, name) => {
+            cb(message, name);
+        })
+    }
 
-const subscribe = (channelName, cb) => {
-    diagnostics_channel.channel(channelName).subscribe((message, name) => {
-        cb(message, name);
-    })
-}
-const publish = (channelName, data) => {
-    preCheck(channelName);
-    diagnostics_channel.channel(channelName).publish(data);
-}
-
-export {
-    channel,
-    hasSubscribers,
-    subscribe,
-    publish
+    publish = (data) => {
+        this.ch.publish(data);
+    }
 }

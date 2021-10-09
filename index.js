@@ -1,15 +1,17 @@
-import { channel, subscribe, publish } from './diagnostics_channel/index.js';
+import Channel from './diagnostics_channel/index.js';
 
-const ch1 = channel("channel-1");
+const channel1 = new Channel("channel-1");
 
 const func1 = () => {
-    subscribe("channel-1", (message, name) => {
-        console.log("I received", message, name);
-    });
+    console.log(channel1.channelName);
+    // channel1.subscribe((message, name) => {
+    //     console.log("I received", message, name);
+    // });
 }
 
 const func2 = () => {
-    publish("channel-1", (new Date).toISOString());
+    console.log(channel1.channelName);
+    // channel1.publish((new Date).toISOString());
     func3();
 }
 
