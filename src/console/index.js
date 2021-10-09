@@ -27,6 +27,14 @@ export default class Logger {
             info: false,
             warn: false
         },
+        appendTimeStamp = {
+            log: true,
+            error: true,
+            debug: true,
+            info: true,
+            warn: true,
+            trace: true
+        },
         outputFileName = './stdout.log',
         errorOutputFileName = './stderr.log'
     }) {
@@ -34,13 +42,17 @@ export default class Logger {
         this.toLogInFile = toLogInFile;
         this.toDisplayInConsole = toDisplayInConsole;
         this.toLogTrace = toLogTrace;
+        this.appendTimeStamp = appendTimeStamp;
         this.output = fs.createWriteStream(outputFileName, {flags:'a+'});
         this.errorOutput = fs.createWriteStream(errorOutputFileName, {flags:'a+'});
         this.logger = new Console({ stdout: this.output, stderr: this.errorOutput });
     }
 
-    getMessage(prefix, message) {
-        return `[${prefix}](${this.name}):[${(new Date()).toISOString()}]\t: ${message}`;
+    getMessage(functionName, message) {
+        if(this.appendTimeStamp[functionName])
+            return `[${functionName}](${this.name}):[${(new Date()).toISOString()}]\t: ${message}`;
+        else
+            return `[${functionName}](${this.name})\t: ${message}`;
     }
 
     printLog(functionName, ...message) {
@@ -82,6 +94,10 @@ export default class Logger {
         this.printLog("warn", ...message);
     }
 
+    table() {
+        this.printLog("table", ...message);
+    }
+
     trace (...message) {
         const printMessage = this.getMessage(functionName, message.join(" "));
         if(this.toLogInFile[functionName])
@@ -89,13 +105,4 @@ export default class Logger {
         if((this.toDisplayInConsole[functionName]) || (!this.toDisplayInConsole[functionName] && !this.toDisplayInConsole[functionName]))
             console.trace(printMessage);
     }
-
-    table() {
-
-    }
-
-    assert() {
-
-    }
-
 }

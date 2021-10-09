@@ -1,4 +1,4 @@
-import Logger from "./index.js";
+import Logger from "../console/index.js";
 
 const logger = new Logger({name: "console:example", toLogInFile: {log: false}, toDisplayInConsole: {log: true, error: true, debug: false}});
 
