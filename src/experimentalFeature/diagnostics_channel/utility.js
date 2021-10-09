@@ -1,7 +1,5 @@
-const isNonEmptyString = (input) => {
-    return input && input.length > 0;
-}
+const isNonEmptyString = (input) => input && input.length > 0;
 
 export {
-    isNonEmptyString
-}
+  isNonEmptyString,
+};

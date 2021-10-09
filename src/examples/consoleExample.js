@@ -1,8 +1,8 @@
-import Logger from "../console/index.js";
+import Logger from '../console/index.js';
 
-const logger = new Logger({name: "console:example", toLogInFile: {log: false}, toDisplayInConsole: {log: true, error: true, debug: false}});
+const logger = new Logger({ name: 'console:example', toLogInFile: { log: false }, toDisplayInConsole: { log: true, error: true, debug: false } });
 
-logger.multiMessage("jeee", "ejee");
+logger.multiMessage('jeee', 'ejee');
 logger.log('Hello, world');
 // Saves to stdout file
 // [log](ExampleLogger):[2021-10-09T04:11:49.823Z]	: Hello, world
@@ -39,10 +39,10 @@ logger.error(new Error('This is an actual error'), true, true);
  */
 
 // Don't log to file
-const logger1 = new Logger("ExampleLogger", false);
+const logger1 = new Logger('ExampleLogger', false);
 
 // don't log to file. Display on Stdout
-const logger2 = new Logger("ExampleLogger", false, true);
+const logger2 = new Logger('ExampleLogger', false, true);
 
 // Change stdout and stderr file names
-const logger3 = new Logger("ExampleLogger", true, true, "filea.log", "fileb.log");
+const logger3 = new Logger('ExampleLogger', true, true, 'filea.log', 'fileb.log');

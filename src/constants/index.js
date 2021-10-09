@@ -1,8 +1,8 @@
 const consoleConstant = {
-    outputFileName: './stdout.log',
-    errorOutputFileName: './stderr.log'
+  outputFileName: './stdout.log',
+  errorOutputFileName: './stderr.log',
 };
 
 export {
-    consoleConstant
-}
+  consoleConstant,
+};
