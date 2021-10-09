@@ -1,7 +1,8 @@
 import Logger from "./index.js";
 
-const logger = new Logger("ExampleLogger");
+const logger = new Logger({name: "console:example", toLogInFile: {log: false}, toDisplayInConsole: {log: true, error: true, debug: false}});
 
+logger.multiMessage("jeee", "ejee");
 logger.log('Hello, world');
 // Saves to stdout file
 // [log](ExampleLogger):[2021-10-09T04:11:49.823Z]	: Hello, world
