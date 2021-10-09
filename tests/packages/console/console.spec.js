@@ -23,14 +23,14 @@ describe('Packages:Console:Log', () => {
 
   test('[Custom loggerName]', () => {
     const loggerName = "Custom Logger";
-    const logger = new Logger({ name: loggerName});
+    const logger = new Logger({ name: loggerName });
     expect(logger.name).toBe(loggerName);
   });
 
   test('[default outputFileName & errorOutputFileName filenames]', () => {
     new Logger({ name: 'l2' });
     const nodeVersion = process.version.match(/^v(\d+\.\d+)/)[1].split(".")[0];
-    if(nodeVersion !== "16") {
+    if (nodeVersion !== "16") {
       expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
       expect(fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
     }
@@ -39,7 +39,7 @@ describe('Packages:Console:Log', () => {
   test('[Custom filenames for outputFileName & errorOutputFileName]', () => {
     new Logger({ name: 'l1', outputFileName: customOutputFileName, errorOutputFileName: customErrorOutputFileName });
     const nodeVersion = process.version.match(/^v(\d+\.\d+)/)[1].split(".")[0];
-    if(nodeVersion !== "16") { 
+    if (nodeVersion !== "16") {
       expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
       expect(fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
       expect(() => {
@@ -49,14 +49,14 @@ describe('Packages:Console:Log', () => {
   });
 
   test('[default values of toLogInFile]', () => {
-  const logger = new Logger({});
-  allLoggerFunctions.forEach((functionName) => {
-    expect(logger.toLogInFile[functionName]).toBe(true);
+    const logger = new Logger({});
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.toLogInFile[functionName]).toBe(true);
     });
   });
 
   test('[custom values of toLogInFile]', () => {
-    
+
     const customToLogInFile = {
       log: randomBoolean(),
       error: randomBoolean(),
@@ -66,9 +66,9 @@ describe('Packages:Console:Log', () => {
       trace: randomBoolean(),
     }
 
-    const logger = new Logger({toLogInFile: customToLogInFile});
+    const logger = new Logger({ toLogInFile: customToLogInFile });
     allLoggerFunctions.forEach((functionName) => {
       expect(logger.toLogInFile[functionName]).toBe(customToLogInFile[functionName]);
-      });
     });
+  });
 });
