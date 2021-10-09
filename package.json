@@ -1,7 +1,7 @@
 {
   "name": "@raunakjodhawat/lazy-node",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Making hidden features of NodeJS accessible to the developer community",
   "main": "lazy-node.js",
   "scripts": {
