@@ -1,0 +1,1 @@
+1. Support for new Logger({}) and new Logger()

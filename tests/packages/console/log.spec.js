@@ -7,6 +7,28 @@ describe('Packages:Console:Log', () => {
   beforeAll(() => {
     logger = new Logger({ name: 'hello' });
   });
+
+  afterAll(() => {
+    // fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)
+  });
+
+  test('[default loggerName]', () => {
+    const l3 = new Logger({});
+    expect(l3.name).toBe("");
+  });
+
+  test('[Custom loggerName]', () => {
+    const loggerName = "Custom Logger";
+    const l4 = new Logger({ name: loggerName});
+    expect(l4.name).toBe(loggerName);
+  });
+
+  test('[default outputFileName & errorOutputFileName filenames]', () => {
+    new Logger({ name: 'l2' });
+    expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+    expect(fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+  });
+
   test('[Custom filenames for outputFileName & errorOutputFileName]', () => {
     const outputFileName = './tests/packages/console/out.log';
     const errorOutputFileName = './tests/packages/console/error.log';
@@ -19,9 +41,4 @@ describe('Packages:Console:Log', () => {
     }).toThrow();
   });
 
-  test('[default outputFileName & errorOutputFileName filenames]', () => {
-    new Logger({ name: 'l2' });
-    expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-    expect(fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-  });
 });

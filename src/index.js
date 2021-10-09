@@ -1,5 +1,5 @@
 import Logger from './console/index.js';
 
-export {
+export default {
   Logger,
 };

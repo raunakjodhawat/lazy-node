@@ -5,7 +5,7 @@ import { consoleConstant } from '../constants/index.js';
 
 export default class Logger {
   constructor({
-    name = '',
+    name = consoleConstant.fileName,
     toLogInFile = {
       log: true,
       error: true,
