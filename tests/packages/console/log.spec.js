@@ -1,15 +1,18 @@
 import * as fs from 'fs';
 import Logger from '../../../src/console/index.js';
 import { consoleConstant } from '../../../src/constants/index.js';
+import { deleteFile } from '../../utils/index.js';
+
+const customOutputFileName = './tests/packages/console/out.log';
+const customErrorOutputFileName = './tests/packages/console/error.log';
 
 describe('Packages:Console:Log', () => {
-  let logger;
-  beforeAll(() => {
-    logger = new Logger({ name: 'hello' });
-  });
 
   afterAll(() => {
-    // fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)
+    deleteFile(consoleConstant.outputFileName);
+    deleteFile(consoleConstant.errorOutputFileName);
+    deleteFile(customOutputFileName);
+    deleteFile(customErrorOutputFileName);
   });
 
   test('[default loggerName]', () => {
@@ -30,12 +33,9 @@ describe('Packages:Console:Log', () => {
   });
 
   test('[Custom filenames for outputFileName & errorOutputFileName]', () => {
-    const outputFileName = './tests/packages/console/out.log';
-    const errorOutputFileName = './tests/packages/console/error.log';
-
-    new Logger({ name: 'l1', outputFileName, errorOutputFileName });
-    expect(fs.accessSync(outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-    expect(fs.accessSync(errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+    new Logger({ name: 'l1', outputFileName: customOutputFileName, errorOutputFileName: customErrorOutputFileName });
+    expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+    expect(fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
     expect(() => {
       fs.accessSync('./tests/packages/console/randomFile.log', fs.constants.R_OK | fs.constants.W_OK);
     }).toThrow();
