@@ -29,18 +29,23 @@ describe('Packages:Console:Log', () => {
 
   test('[default outputFileName & errorOutputFileName filenames]', () => {
     new Logger({ name: 'l2' });
-    console.log(fs.accessSync(consoleConstant.outputFileName, fs.R_OK | fs.W_OK));
-    expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-    expect(fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+    const nodeVersion = process.version.match(/^v(\d+\.\d+)/)[1].split(".")[0];
+    if(nodeVersion !== "16") {
+      expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+      expect(fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+    }
   });
 
   test('[Custom filenames for outputFileName & errorOutputFileName]', () => {
     new Logger({ name: 'l1', outputFileName: customOutputFileName, errorOutputFileName: customErrorOutputFileName });
-    expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-    expect(fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-    expect(() => {
-      fs.accessSync('./tests/packages/console/randomFile.log', fs.constants.R_OK | fs.constants.W_OK);
-    }).toThrow();
+    const nodeVersion = process.version.match(/^v(\d+\.\d+)/)[1].split(".")[0];
+    if(nodeVersion !== "16") { 
+      expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+      expect(fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+      expect(() => {
+        fs.accessSync('./tests/packages/console/randomFile.log', fs.constants.R_OK | fs.constants.W_OK);
+      }).toThrow();
+    }
   });
 
   test('[default values of toLogInFile]', () => {
