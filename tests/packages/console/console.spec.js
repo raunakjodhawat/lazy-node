@@ -5,6 +5,7 @@ import { deleteFile } from '../../utils/index.js';
 
 const customOutputFileName = './tests/packages/console/out.log';
 const customErrorOutputFileName = './tests/packages/console/error.log';
+const allLoggerFunctions = ["log", "error", "debug", "info", "warn", "trace"];
 
 describe('Packages:Console:Log', () => {
 
@@ -22,8 +23,8 @@ describe('Packages:Console:Log', () => {
 
   test('[Custom loggerName]', () => {
     const loggerName = "Custom Logger";
-    const l4 = new Logger({ name: loggerName});
-    expect(l4.name).toBe(loggerName);
+    const logger = new Logger({ name: loggerName});
+    expect(logger.name).toBe(loggerName);
   });
 
   test('[default outputFileName & errorOutputFileName filenames]', () => {
@@ -42,12 +43,9 @@ describe('Packages:Console:Log', () => {
   });
 
   test('[default values of toLogInFile]', () => {
-    new Logger({ name: 'l1', outputFileName: customOutputFileName, errorOutputFileName: customErrorOutputFileName });
-    expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-    expect(fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-    expect(() => {
-      fs.accessSync('./tests/packages/console/randomFile.log', fs.constants.R_OK | fs.constants.W_OK);
-    }).toThrow();
+  const logger = new Logger({});
+  allLoggerFunctions.forEach((functionName) => {
+    expect(logger.toLogInFile[functionName]).toBe(true);
+    });
   });
-
 });
