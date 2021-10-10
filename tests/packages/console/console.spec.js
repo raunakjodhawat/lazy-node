@@ -7,7 +7,10 @@ const customOutputFileName = './tests/packages/console/out.log';
 const customErrorOutputFileName = './tests/packages/console/error.log';
 const allLoggerFunctions = ["log", "error", "debug", "info", "warn", "trace"];
 
-describe('Packages:Console:Log', () => {
+/**
+ * This file tests all the parameters of the constructor of Console class
+ */
+describe('Packages:Console:Constructor', () => {
 
   afterAll(() => {
     deleteFile(consoleConstant.outputFileName);
@@ -71,4 +74,80 @@ describe('Packages:Console:Log', () => {
       expect(logger.toLogInFile[functionName]).toBe(customToLogInFile[functionName]);
     });
   });
+
+  test('[default values of toDisplayInConsole]', () => {
+    const logger = new Logger({});
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.toDisplayInConsole[functionName]).toBe(false);
+    });
+  });
+
+  test('[custom values of toDisplayInConsole]', () => {
+
+    const customToDisplayInConsole = {
+      log: randomBoolean(),
+      error: randomBoolean(),
+      debug: randomBoolean(),
+      info: randomBoolean(),
+      warn: randomBoolean(),
+      trace: randomBoolean(),
+    }
+
+    const logger = new Logger({ toDisplayInConsole: customToDisplayInConsole });
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.toDisplayInConsole[functionName]).toBe(customToDisplayInConsole[functionName]);
+    });
+  });
+
+  test('[default values of toLogTrace]', () => {
+    const logger = new Logger({});
+    const traceLoggerFunctions = new Array(allLoggerFunctions);
+    traceLoggerFunctions.pop();
+    traceLoggerFunctions.forEach((functionName) => {
+      expect(logger.toLogTrace[functionName]).toBe(false);
+    });
+  });
+
+  test('[custom values of toLogTrace]', () => {
+
+    const customToLogTrace = {
+      log: randomBoolean(),
+      error: randomBoolean(),
+      debug: randomBoolean(),
+      info: randomBoolean(),
+      warn: randomBoolean(),
+    }
+
+    const logger = new Logger({ toLogTrace: customToLogTrace });
+    const traceLoggerFunctions = new Array(allLoggerFunctions);
+    traceLoggerFunctions.pop();
+    traceLoggerFunctions.forEach((functionName) => {
+      expect(logger.toLogTrace[functionName]).toBe(customToLogTrace[functionName]);
+    });
+  });
+
+  test('[default values of appendTimeStamp]', () => {
+    const logger = new Logger({});
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.appendTimeStamp[functionName]).toBe(true);
+    });
+  });
+
+  test('[custom values of toDisplayInConsole]', () => {
+
+    const customAppendTimeStamp = {
+      log: randomBoolean(),
+      error: randomBoolean(),
+      debug: randomBoolean(),
+      info: randomBoolean(),
+      warn: randomBoolean(),
+      trace: randomBoolean(),
+    }
+
+    const logger = new Logger({ appendTimeStamp: customAppendTimeStamp });
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.appendTimeStamp[functionName]).toBe(customAppendTimeStamp[functionName]);
+    });
+  });
+
 });
