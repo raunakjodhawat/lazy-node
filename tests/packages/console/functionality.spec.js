@@ -17,6 +17,16 @@ describe('Packages:Console:functionality', () => {
     const message = "this is a test message";
     expect(logger.getMessage("log", message)).toMatch(/\[log\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\sthis is a test message/g);
     expect(logger.getMessage("debug", message)).not.toMatch(/\[log\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\sthis is a test message/g);
+    expect(logger.getMessage("debug", message)).toBe("[debug]()\t: this is a test message");
+  });
+
+  test('printLog() default values', () => {
+    const logger = new Logger({});
+    const message = "this is a test message";
+    logger.printLog("log", "Hello", "world");
+    // expect(logger.getMessage("log", message)).toMatch(/\[log\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\sthis is a test message/g);
+    // expect(logger.getMessage("debug", message)).not.toMatch(/\[log\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\sthis is a test message/g);
+    // expect(logger.getMessage("debug", message)).toBe("[debug]()\t: this is a test message");
   });
 
 });
