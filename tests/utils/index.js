@@ -17,8 +17,15 @@ const getLastLine = (fileName, cb) => {
         cb(lastLineContent);
     });
 }
+const doesFileContain = (fileName, searchKey, cb) => {
+    fs.readFile(fileName, (_error, data) => {
+        cb(data.includes(searchKey));
+    });
+}
+
 export {
     deleteFile,
     randomBoolean,
-    getLastLine
+    getLastLine,
+    doesFileContain
 }
