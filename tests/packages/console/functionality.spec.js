@@ -4,10 +4,10 @@ import { deleteFile, doesFileContain, getDateCheckRegex, getLastLine } from '../
 
 describe('Packages:Console:functionality', () => {
 
-  // afterAll(() => {
-  //   deleteFile(consoleConstant.outputFileName);
-  //   deleteFile(consoleConstant.errorOutputFileName);
-  // });
+  afterAll(() => {
+    deleteFile(consoleConstant.outputFileName);
+    deleteFile(consoleConstant.errorOutputFileName);
+  });
 
   test('getMessage(), with default timestamp values', () => {
     const logger = new Logger({});
