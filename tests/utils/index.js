@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { exec } from 'child_process';
 
 const deleteFile = (fileName) => {
     try {
@@ -7,6 +8,24 @@ const deleteFile = (fileName) => {
     }
 }
 
+const randomBoolean = () => {
+    return (Math.floor(Math.random() * 2) % 2 == 0);
+}
+
+const getLastLine = (fileName, cb) => {
+    exec(`tail -n 1 ${fileName}`,  (_error, lastLineContent, _stderr) => {
+        cb(lastLineContent);
+    });
+}
+const doesFileContain = (fileName, searchKey, cb) => {
+    fs.readFile(fileName, (_error, data) => {
+        cb(data.includes(searchKey));
+    });
+}
+
 export {
-    deleteFile
+    deleteFile,
+    randomBoolean,
+    getLastLine,
+    doesFileContain
 }

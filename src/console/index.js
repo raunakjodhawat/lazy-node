@@ -75,32 +75,32 @@ export default class Logger {
   }
 
   log(...message) {
-    this.printLog('log', ...message);
+    this.printLog(consoleConstant.functionaPrintNames.log, ...message);
   }
 
   error(...message) {
-    this.printLog('error', ...message);
+    this.printLog(consoleConstant.functionaPrintNames.error, ...message);
   }
 
   debug(...message) {
-    this.printLog('debug', ...message);
+    this.printLog(consoleConstant.functionaPrintNames.debug, ...message);
   }
 
   info(...message) {
-    this.printLog('info', ...message);
+    this.printLog(consoleConstant.functionaPrintNames.info, ...message);
   }
 
   warn(...message) {
-    this.printLog('warn', ...message);
+    this.printLog(consoleConstant.functionaPrintNames.warn, ...message);
   }
 
   table() {
-    this.printLog('table', ...message);
+    this.printLog(consoleConstant.functionaPrintNames.table, ...message);
   }
 
   trace(...message) {
-    const printMessage = this.getMessage(functionName, message.join(' '));
-    if (this.toLogInFile[functionName]) this.logger.trace(printMessage);
-    if ((this.toDisplayInConsole[functionName]) || (!this.toDisplayInConsole[functionName] && !this.toDisplayInConsole[functionName])) console.trace(printMessage);
+    const printMessage = this.getMessage(consoleConstant.functionaPrintNames.trace, message.join(' '));
+    if (this.toLogInFile.trace) this.logger.trace(printMessage);
+    if ((this.toDisplayInConsole.trace) || (!this.toDisplayInConsole.trace && !this.toDisplayInConsole.trace)) console.trace(printMessage);
   }
 }
