@@ -1,5 +1,8 @@
 import * as fs from 'fs';
-type allLogFunctionsType = {
+
+import { ExpendRecursivelyTypeFunction } from '../types';
+
+type minAllLogFunctionsType = {
     log: boolean,
     error: boolean,
     debug: boolean,
@@ -9,7 +12,7 @@ type allLogFunctionsType = {
     table: boolean
 }
 
-type loggerOptionsType = {
+type minLoggerOptionsType = {
     name: string;
     logInFile: allLogFunctionsType;
     displayToConsole: allLogFunctionsType
@@ -31,6 +34,10 @@ enum functionNamesEnum {
     trace = 'trace',
     table = 'table'
 }
+
+
+type allLogFunctionsType = ExpendRecursivelyTypeFunction<minAllLogFunctionsType>
+type loggerOptionsType = ExpendRecursivelyTypeFunction<minLoggerOptionsType>
 
 export {
     loggerOptionsType,

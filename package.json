@@ -1,11 +1,11 @@
 {
   "name": "@raunakjodhawat/lazy-node",
-  "type": "module",
   "version": "0.0.4",
   "description": "Making hidden features of NodeJS accessible to the developer community",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "jest --no-cache --coverage"
+    "test": "jest --no-cache --coverage",
+    "build": "rm -rf ./dist && tsc"
   },
   "files": [
     "dist"
