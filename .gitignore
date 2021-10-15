@@ -2,3 +2,4 @@ coverage
 node_modules
 stderr.log
 stdout.log
+dist

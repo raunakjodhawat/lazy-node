@@ -3,10 +3,13 @@
   "type": "module",
   "version": "0.0.4",
   "description": "Making hidden features of NodeJS accessible to the developer community",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "jest --no-cache --coverage"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/raunakjodhawat/lazy-node.git"

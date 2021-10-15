@@ -3,6 +3,7 @@
 import { Logger } from '@raunakjodhawat/lazy-node';
 ```
 
+## 2. 
 By default **Log, error, warn** are the only ones which are logged in the files
 ```
 toLogInFile = {
