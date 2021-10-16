@@ -1,6 +1,6 @@
 {
-  "name": "@raunakjodhawat/lazy-node",
-  "version": "0.0.4",
+  "name": "node-bridge-sdk",
+  "version": "0.0.1",
   "description": "Making hidden features of NodeJS accessible to the developer community",
   "main": "./dist/index.js",
   "scripts": {
