@@ -1,7 +1,7 @@
 
-# Logger/Console
+# Logger/Console [![npm version](https://badge.fury.io/js/node-bridge-sdk.svg)](https://badge.fury.io/js/node-bridge-sdk)
 
-Fully configurable logger module, that automatically captures all logs inside two seprate files. Along with traditional functionality of `console`, it appends the timestamp and name of the logger as well, so you know what happened and when it happened and you don't have to deep dive into unnecessary noise of server logs, while debugging.
+Fully configurable logger module, that automatically captures all logs inside two separate files. Along with traditional functionality of `console`, it appends the timestamp and name of the logger as well, so you know what happened and when it happened and you don't have to deep dive into unnecessary noise of server logs, while debugging.
 
   
 
@@ -12,34 +12,35 @@ Extremely light package, with no external "dev" dependencies. Everything happens
 ### Installation
 
 ```javascript
-
-npm  install @raunakjodhawat/lazy-node
-
+npm  install node-bridge-sdk
 or
-
-yarn  add @raunakjodhawat/lazy-node
-
+yarn  add node-bridge-sdk
 ```
 
 ### Usage
 
 ```javascript
-
-import { getLogger } from  '@raunakjodhawat/lazy-node';
+import { getLogger } from  'node-bridge-sdk';
 
 const  logger = getLogger({name:  'users:getData'});
+// or const logger = getLogger();
 logger.debug('got users data');
 
 // emits
-Trace: [debug](test):[2021-10-15T22:18:20.817Z] : got users data
-at  Logger.printLog (/Users/raunakjodhawat/code/lazy-node/dist/console/console.js:100:25)
-at  Logger.debug (/Users/raunakjodhawat/code/lazy-node/dist/console/console.js:126:23)
-at  file:///Users/raunakjodhawat/code/raunakjodhawat/index.js:4:8
-at  ModuleJob.run (internal/modules/esm/module_job.js:183:25)
-at  async  Loader.import (internal/modules/esm/loader.js:178:24)
-at  async  Object.loadESM (internal/process/esm_loader.js:68:5)
+[debug](users:getData):[2021-10-16T03:04:01.976Z] : got users data
+on console and stdout.log file
 ```
 
+### Functions
+```javascript
+logger.log(123, "hello:", `${userId}`);
+logger.error(...)
+logger.debug(...)
+logger.info(...)
+logger.warn(...)
+logger.trace(...)
+logger.table(...)
+```
 # Options
 Other ways to initialize Logger
 ## name(recommended use)
@@ -71,4 +72,45 @@ logInFile = {
 	trace:  true,
 	table:  true,
 }
+
+const  logger = getLogger({name:  "users:setData", logInFile: {debug:  false, error: false}});
+logger.debug('I will not be added to file');
+logger.log('I will be added to the file, because of default config');
+logger.error(new Error('custom error, I wont be added to stderr.log, because you choose not to'));
+
 ```
+## displayToConsole
+```javascript
+const  logger = getLogger({name:  "users:setData", displayToConsole: {debug:  false, error: true}});
+```
+
+By default all messages are logged into console, you can turn on/off that feature via `displayToConsole` option value
+
+## logWithTrace
+```javascript
+const  logger = getLogger({name:  "users:setData", logWithTrace: {debug:  false, error: true}});
+```
+By default **no** messages are logged with trace information, you can turn on/off that feature via `logWithTrace` option value
+
+## appendTimeStamp
+```javascript
+const  logger = getLogger({name:  "users:setData", appendTimeStamp: {debug:  false, error: true}});
+```
+
+By default all messages have timestamp appended to the messages, which are logged in console or in file. However, you are free to adjust showing timestamp per function. Example of timestamp:
+`[debug](users:setData):[2021-10-16T01:49:37.304Z] : set user data`
+
+## outputFileName
+By default output from `log`, `info`, `trace`, `table` and `debug` is stored in `stdout.log` and output from `error` and `warn` is stored in `stderr.log`. However, you can pass in outputFileName, with the file name that you want.
+```javascript
+const  logger = getLogger({name:  "users:setData", outputFileName: './my-logger-output.log'});
+```
+
+## errorOutputFileName
+You can also change the file name where `error` and `warn` messages are stored
+```javascript
+const  logger = getLogger({name:  "users:setData", outputFileName: './my-logger-error.log'});
+```
+
+### Additional features
+- If both `displayToConsole` and `logInFile` is false for a function is false, the Logger is smart enough to log the function into the console. 

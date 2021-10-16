@@ -24,12 +24,12 @@ export default class Logger {
         this.logger = new Console({ stdout: this.output, stderr: this.errorOutput });
     }
 
-    getMessage(functionName: functionNamesEnum, message: any[]): string {
+    protected getMessage(functionName: functionNamesEnum, message: any[]): string {
         if (this.appendTimeStamp[functionName]) return `[${functionName}](${this.name}):[${(new Date()).toISOString()}]\t: ${message}`;
         return `[${functionName}](${this.name})\t: ${message}`;
     }
 
-    printLog(functionName: functionNamesEnum, ...message: any[]): void {
+    protected printLog(functionName: functionNamesEnum, ...message: any[]): void {
         const printMessage = this.getMessage(functionName, message.reduce((acc, curr) => `${acc} ${curr}`, ' '));
         if (this.logInFile[functionName]) {
             if (this.logWithTrace[functionName]) {
