@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest --no-cache --coverage",
-    "build": "rm -rf ./dist && tsc",
+    "build": "rm -rf ./dist && tsc --declaration",
     "publish": "npm build && npm publish"
   },
   "files": [

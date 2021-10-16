@@ -28,14 +28,10 @@ yarn  add @raunakjodhawat/lazy-node
 import { getLogger } from  '@raunakjodhawat/lazy-node';
 
 const  logger = getLogger({name:  'users:getData'});
-
-  
-
 logger.debug('got users data');
 
 // emits
-
-Trace: [debug](test):[2021-10-15T22:18:20.817Z] : I  am  in  node  1
+Trace: [debug](test):[2021-10-15T22:18:20.817Z] : got users data
 at  Logger.printLog (/Users/raunakjodhawat/code/lazy-node/dist/console/console.js:100:25)
 at  Logger.debug (/Users/raunakjodhawat/code/lazy-node/dist/console/console.js:126:23)
 at  file:///Users/raunakjodhawat/code/raunakjodhawat/index.js:4:8
@@ -45,5 +41,34 @@ at  async  Object.loadESM (internal/process/esm_loader.js:68:5)
 ```
 
 # Options
+Other ways to initialize Logger
+## name(recommended use)
+```javascript
+const  logger = getLogger({name:  'users:setData'});
+logger.debug('set user data');
 
-## name
+// emits
+[debug](users:setData):[2021-10-16T01:49:37.304Z] : set user data
+```
+Name is used while emitting messages. for eg:
+`(users:setData)` in the message above
+
+## logInFile
+```javascript
+const  logger = getLogger({name:  'users:setData'});
+logger.debug('set user data');
+
+```
+Decides whether to log a message type into `stdout.log` and `stderr.log` file or not. By default all messages are added to the files
+```javascript
+Default logInFile values
+logInFile = {
+	log:  true,
+	warn:  true,
+	error:  true,
+	debug:  true,
+	info:  true,
+	trace:  true,
+	table:  true,
+}
+```
