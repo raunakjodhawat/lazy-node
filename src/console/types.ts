@@ -1,6 +1,26 @@
 import { ExpendRecursivelyTypeFunction } from '../types';
 
 type minAllLogFunctionsType = {
+    log?: boolean,
+    error?: boolean,
+    debug?: boolean,
+    info?: boolean,
+    warn?: boolean,
+    trace?: boolean,
+    table?: boolean
+}
+
+type minLoggerOptionsType = {
+    name?: string;
+    logInFile?: allLogFunctionsType;
+    displayToConsole?: allLogFunctionsType
+    logWithTrace?: allLogFunctionsType;
+    appendTimeStamp?: allLogFunctionsType;
+    outputFileName?: string;
+    errorOutputFileName?: string;
+};
+
+type minRequiredAllLogFunctionsType = {
     log: boolean,
     error: boolean,
     debug: boolean,
@@ -10,12 +30,12 @@ type minAllLogFunctionsType = {
     table: boolean
 }
 
-type minLoggerOptionsType = {
+type minRequiredLoggerOptionsType = {
     name: string;
-    logInFile: allLogFunctionsType;
-    displayToConsole: allLogFunctionsType
-    logWithTrace: allLogFunctionsType;
-    appendTimeStamp: allLogFunctionsType;
+    logInFile: minRequiredAllLogFunctionsType;
+    displayToConsole: minRequiredAllLogFunctionsType
+    logWithTrace: minRequiredAllLogFunctionsType;
+    appendTimeStamp: minRequiredAllLogFunctionsType;
     outputFileName: string;
     errorOutputFileName: string;
 };
@@ -37,5 +57,6 @@ type loggerOptionsType = ExpendRecursivelyTypeFunction<minLoggerOptionsType>
 export {
     loggerOptionsType,
     functionNamesEnum,
-    allLogFunctionsType
+    allLogFunctionsType,
+    minRequiredLoggerOptionsType
 };

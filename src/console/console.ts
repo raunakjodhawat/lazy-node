@@ -1,7 +1,7 @@
 import { Console } from 'console';
 import * as fs from 'fs';
 
-import { functionNamesEnum, loggerOptionsType, allLogFunctionsType } from './types';
+import { functionNamesEnum, minRequiredLoggerOptionsType, allLogFunctionsType } from './types';
 
 export default class Logger {
     name: string;
@@ -13,7 +13,7 @@ export default class Logger {
     errorOutput: fs.WriteStream;
     logger: Console;
 
-    constructor(options: loggerOptionsType) {
+    constructor(options: minRequiredLoggerOptionsType) {
         this.name = options.name;
         this.logInFile = options.logInFile;
         this.displayToConsole = options.displayToConsole;

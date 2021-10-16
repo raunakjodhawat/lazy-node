@@ -3,7 +3,7 @@ import { loggerOptionsType } from './console/types';
 import { consoleConstant } from './constants/consoleConstants';
 
 
-const getLogger = (options: loggerOptionsType) => {
+const getLogger = (options?: loggerOptionsType) => {
   return new Logger({
     name: (options && options.name) ? options.name : consoleConstant.fileName,
     logInFile: {
