@@ -21,9 +21,9 @@ export default class Logger {
             warn: true,
             error: true,
             debug: true,
-            info: false,
-            trace: false,
-            table: false,
+            info: true,
+            trace: true,
+            table: true,
         },
         displayToConsole = {
             log: true,
@@ -37,10 +37,10 @@ export default class Logger {
         logWithTrace = {
             log: false,
             error: false,
-            debug: true,
+            debug: false,
             info: false,
             warn: false,
-            trace: true,
+            trace: false,
             table: false
         },
         appendTimeStamp = {
@@ -50,7 +50,7 @@ export default class Logger {
             info: true,
             warn: true,
             trace: true,
-            table: false
+            table: true
         },
         outputFileName = consoleConstant.outputFileName,
         errorOutputFileName = consoleConstant.errorOutputFileName,
@@ -65,12 +65,12 @@ export default class Logger {
         this.logger = new Console({ stdout: this.output, stderr: this.errorOutput });
     }
 
-    getMessage(functionName: functionNamesEnum, message: any[]) {
+    getMessage(functionName: functionNamesEnum, message: any[]): string {
         if (this.appendTimeStamp[functionName]) return `[${functionName}](${this.name}):[${(new Date()).toISOString()}]\t: ${message}`;
         return `[${functionName}](${this.name})\t: ${message}`;
     }
 
-    printLog(functionName: functionNamesEnum, ...message: any[]) {
+    printLog(functionName: functionNamesEnum, ...message: any[]): void {
         const printMessage = this.getMessage(functionName, message.reduce((acc, curr) => `${acc} ${curr}`, ' '));
         if (this.logInFile[functionName]) {
             if (this.logWithTrace[functionName]) {
@@ -81,11 +81,9 @@ export default class Logger {
         }
 
         if ((this.displayToConsole[functionName]) || (!this.displayToConsole[functionName] && !this.logInFile[functionName])) {
-            if (this.logWithTrace[functionName]) {
-                console.trace(printMessage);
-            } else {
-                console[functionName](printMessage);
-            }
+            console.trace(printMessage);
+        } else {
+            console[functionName](printMessage);
         }
     }
 
