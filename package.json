@@ -1,6 +1,6 @@
 {
   "name": "node-bridge-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Making hidden features of NodeJS accessible to the developer community",
   "main": "./dist/index.js",
   "scripts": {
