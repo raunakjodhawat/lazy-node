@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-
 import { ExpendRecursivelyTypeFunction } from '../types';
 
 type minAllLogFunctionsType = {
@@ -20,9 +18,6 @@ type minLoggerOptionsType = {
     appendTimeStamp: allLogFunctionsType;
     outputFileName: string;
     errorOutputFileName: string;
-    output: fs.WriteStream;
-    errorOutput: fs.WriteStream;
-    logger: Console;
 };
 
 enum functionNamesEnum {

@@ -1,7 +1,6 @@
 import { Console } from 'console';
 import * as fs from 'fs';
 
-import { consoleConstant } from '../constants/consoleConstants';
 import { functionNamesEnum, loggerOptionsType, allLogFunctionsType } from './types';
 
 export default class Logger {
@@ -14,54 +13,14 @@ export default class Logger {
     errorOutput: fs.WriteStream;
     logger: Console;
 
-    constructor({
-        name = consoleConstant.fileName,
-        logInFile = {
-            log: true,
-            warn: true,
-            error: true,
-            debug: true,
-            info: true,
-            trace: true,
-            table: true,
-        },
-        displayToConsole = {
-            log: true,
-            warn: true,
-            error: true,
-            debug: true,
-            info: true,
-            trace: true,
-            table: true,
-        },
-        logWithTrace = {
-            log: false,
-            error: false,
-            debug: false,
-            info: false,
-            warn: false,
-            trace: false,
-            table: false
-        },
-        appendTimeStamp = {
-            log: true,
-            error: true,
-            debug: true,
-            info: true,
-            warn: true,
-            trace: true,
-            table: true
-        },
-        outputFileName = consoleConstant.outputFileName,
-        errorOutputFileName = consoleConstant.errorOutputFileName,
-    }: loggerOptionsType) {
-        this.name = name;
-        this.logInFile = logInFile;
-        this.displayToConsole = displayToConsole;
-        this.logWithTrace = logWithTrace;
-        this.appendTimeStamp = appendTimeStamp;
-        this.output = fs.createWriteStream(outputFileName, { flags: 'a+' });
-        this.errorOutput = fs.createWriteStream(errorOutputFileName, { flags: 'a+' });
+    constructor(options: loggerOptionsType) {
+        this.name = options.name;
+        this.logInFile = options.logInFile;
+        this.displayToConsole = options.displayToConsole;
+        this.logWithTrace = options.logWithTrace;
+        this.appendTimeStamp = options.appendTimeStamp;
+        this.output = fs.createWriteStream(options.outputFileName, { flags: 'a+' });
+        this.errorOutput = fs.createWriteStream(options.errorOutputFileName, { flags: 'a+' });
         this.logger = new Console({ stdout: this.output, stderr: this.errorOutput });
     }
 

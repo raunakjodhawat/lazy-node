@@ -1,12 +1,11 @@
 {
   "name": "node-bridge-sdk",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "Making hidden features of NodeJS accessible to the developer community",
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest --no-cache --coverage",
-    "build": "rm -rf ./dist && tsc --declaration",
-    "publish": "npm build && npm publish"
+    "build": "rm -rf ./dist && tsc --declaration"
   },
   "files": [
     "dist"
