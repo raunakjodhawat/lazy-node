@@ -1,1 +1,1 @@
-1. Support for new Logger({}) and new Logger()
+1. Support for writeStream.hasColors
