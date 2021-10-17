@@ -13,27 +13,54 @@ const allLoggerFunctions = [functionNamesEnum.log, functionNamesEnum.debug, func
  */
 describe('Packages:Console:Constructor', () => {
 
-  afterAll(() => {
+  beforeEach(() => {
+    deleteFile(consoleConstant.outputFileName);
+    deleteFile(consoleConstant.errorOutputFileName);
+    deleteFile(customOutputFileName);
+    deleteFile(customErrorOutputFileName);
+  });
+  
+  afterEach(() => {
     deleteFile(consoleConstant.outputFileName);
     deleteFile(consoleConstant.errorOutputFileName);
     deleteFile(customOutputFileName);
     deleteFile(customErrorOutputFileName);
   });
 
-  test('[default loggerName]', () => {
+  test('Logger can have an object or nothing as the input', () => {
+    const l1 = getLogger({});
+    expect(l1.name).toBe("");
+    const l2 = getLogger();
+    expect(l2.name).toBe("");
+  });
+
+  test('by default logger name is empty string', () => {
     const logger = getLogger({});
     expect(logger.name).toBe("");
   });
 
-  test('[Custom loggerName]', () => {
+  test('Logger name can be changed with options.name value as input', () => {
     const loggerName = "Custom Logger";
     const logger = getLogger({ name: loggerName });
     expect(logger.name).toBe(loggerName);
   });
 
   test('[default outputFileName & errorOutputFileName filenames]', () => {
-    getLogger({ name: 'l2' });
     const nodeVersion = process.version.match(/^v(\d+\.\d+)/)![1].split(".")[0];
+
+    // test if files are not present
+    if (nodeVersion !== "16") {
+      expect(() => {
+        fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK);
+      }).toThrow();
+      expect(() => {
+        fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
+      }).toThrow();
+    }
+
+    // initializing & calling logger, should create new files
+    const logger = getLogger({ name: 'l2' });
+    logger.log("test if", "files were", "created");
     if (nodeVersion !== "16") {
       expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
       expect(fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
@@ -41,7 +68,8 @@ describe('Packages:Console:Constructor', () => {
   });
 
   test('[Custom filenames for outputFileName & errorOutputFileName]', () => {
-    getLogger({ name: 'l1', outputFileName: customOutputFileName, errorOutputFileName: customErrorOutputFileName });
+    const l1 = getLogger({ name: 'l1', outputFileName: customOutputFileName, errorOutputFileName: customErrorOutputFileName });
+    // continue: l1.log("Hello, world");
     const nodeVersion = process.version.match(/^v(\d+\.\d+)/)![1].split(".")[0];
     if (nodeVersion !== "16") {
       expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);

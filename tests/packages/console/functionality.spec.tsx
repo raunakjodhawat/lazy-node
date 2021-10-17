@@ -12,6 +12,10 @@ describe('Packages:Console:functionality', () => {
   test('logger.log()', () => {
     const logger = getLogger({});
     const message = "this is a test message";
+    expect(logger.logInFile.log).toBe(true);
+    expect(logger.logInFile.log).toBe(true);
+    expect(logger.logInFile.log).toBe(true);
+    expect(logger.logInFile.log).toBe(true);
     // expect(logger.log(message)).toMatch(/\[log\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\sthis is a test message/g);
   });
 

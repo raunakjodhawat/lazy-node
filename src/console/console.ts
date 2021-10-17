@@ -40,9 +40,11 @@ export default class Logger {
         }
 
         if ((this.displayToConsole[functionName]) || (!this.displayToConsole[functionName] && !this.logInFile[functionName])) {
-            console.trace(printMessage);
-        } else {
-            console[functionName](printMessage);
+            if (this.logWithTrace[functionName]) {
+                console.trace(printMessage);
+            } else {
+                console[functionName](printMessage);
+            }
         }
     }
 
