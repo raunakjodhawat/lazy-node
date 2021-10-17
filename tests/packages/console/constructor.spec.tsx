@@ -49,14 +49,20 @@ describe('Packages:Console:Constructor', () => {
     const nodeVersion = process.version.match(/^v(\d+\.\d+)/)![1].split(".")[0];
 
     // test if files are not present
-    if (nodeVersion !== "16") {
-      expect(() => {
-        fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK);
-      }).toThrow();
-      expect(() => {
-        fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
-      }).toThrow();
-    }
+    // if (nodeVersion !== "16") {
+    //   expect(() => {
+    //     fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK);
+    //   }).toThrow();
+    //   expect(() => {
+    //     fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
+    //   }).toThrow();
+    // }
+    expect(() => {
+      fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK);
+    }).toThrow();
+    expect(() => {
+      fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
+    }).toThrow();
 
     // initializing & calling logger, should create new files
     const logger = getLogger({ name: 'l2' });
