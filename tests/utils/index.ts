@@ -2,10 +2,16 @@ import * as fs from 'fs';
 import { exec } from 'child_process';
 
 const deleteFile = (fileName: string) => {
-    try {
-        fs.unlinkSync(fileName);
-    } catch (_error) {
-    }
+    return new Promise((resolve, _reject) => {
+        try {
+            fs.unlinkSync(fileName);
+            resolve({});
+        } catch (_error) {
+        } finally {
+            console.log(`${fileName} deleted`);
+            resolve({});
+        }
+    });
 }
 
 const randomBoolean = () => {

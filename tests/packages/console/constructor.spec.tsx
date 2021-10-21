@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import { getLogger } from '../../../src/index';
 import { consoleConstant } from '../../../src/constants/consoleConstants';
 import { deleteFile, randomBoolean } from '../../utils/index';
@@ -12,20 +13,13 @@ const allLoggerFunctions = [functionNamesEnum.log, functionNamesEnum.debug, func
  * This file tests all the parameters of the constructor of Console class
  */
 describe('Packages:Console:Constructor', () => {
-
-  beforeEach(() => {
-    deleteFile(consoleConstant.outputFileName);
-    deleteFile(consoleConstant.errorOutputFileName);
-    deleteFile(customOutputFileName);
-    deleteFile(customErrorOutputFileName);
-  });
   
-  afterEach(() => {
-    deleteFile(consoleConstant.outputFileName);
-    deleteFile(consoleConstant.errorOutputFileName);
-    deleteFile(customOutputFileName);
-    deleteFile(customErrorOutputFileName);
-  });
+  // afterEach(async () => {
+  //   await deleteFile(consoleConstant.outputFileName);
+  //   await deleteFile(consoleConstant.errorOutputFileName);
+  //   await deleteFile(customOutputFileName);
+  //   await deleteFile(customErrorOutputFileName);
+  // });
 
   test('Logger can have an object or nothing as the input', () => {
     const l1 = getLogger({});
@@ -45,33 +39,27 @@ describe('Packages:Console:Constructor', () => {
     expect(logger.name).toBe(loggerName);
   });
 
-  test('[default outputFileName & errorOutputFileName filenames]', () => {
-    const nodeVersion = process.version.match(/^v(\d+\.\d+)/)![1].split(".")[0];
-    expect(() => {
-      fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK);
-    }).toThrow();
-    expect(() => {
-      fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
-    }).toThrow();
-
+  test('[default outputFileName & errorOutputFileName filenames]', (done: Function) => {
     // initializing & calling logger, should create new files
     const logger = getLogger({ name: 'l2' });
     logger.log("test if", "files were", "created");
-    expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-    expect(fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+    setTimeout(() => {
+      expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+      expect(fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+      done();
+    }, 200);
+
   });
 
   test('[Custom filenames for outputFileName & errorOutputFileName]', () => {
     const l1 = getLogger({ name: 'l1', outputFileName: customOutputFileName, errorOutputFileName: customErrorOutputFileName });
-    // continue: l1.log("Hello, world");
-    const nodeVersion = process.version.match(/^v(\d+\.\d+)/)![1].split(".")[0];
-    if (nodeVersion !== "16") {
-      expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-      expect(fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-      expect(() => {
-        fs.accessSync('./tests/packages/console/randomFile.log', fs.constants.R_OK | fs.constants.W_OK);
-      }).toThrow();
-    }
+    l1.log("Hello, world");
+    expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+    
+    //expect(fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+    expect(() => {
+      fs.accessSync('./tests/packages/console/randomFile.log', fs.constants.R_OK | fs.constants.W_OK);
+    }).toThrow();
   });
 
   test('[default values of toLogInFile]', () => {
