@@ -14,12 +14,19 @@ const allLoggerFunctions = [functionNamesEnum.log, functionNamesEnum.debug, func
  */
 describe('Packages:Console:Constructor', () => {
   
-  // afterEach(async () => {
-  //   await deleteFile(consoleConstant.outputFileName);
-  //   await deleteFile(consoleConstant.errorOutputFileName);
-  //   await deleteFile(customOutputFileName);
-  //   await deleteFile(customErrorOutputFileName);
-  // });
+  afterAll(async() => {
+    await deleteFile(consoleConstant.outputFileName);
+    await deleteFile(consoleConstant.errorOutputFileName);
+    await deleteFile(customOutputFileName);
+    await deleteFile(customErrorOutputFileName);
+  });
+
+  beforeEach(async () => {
+    await deleteFile(consoleConstant.outputFileName);
+    await deleteFile(consoleConstant.errorOutputFileName);
+    await deleteFile(customOutputFileName);
+    await deleteFile(customErrorOutputFileName);
+  });
 
   test('Logger can have an object or nothing as the input', () => {
     const l1 = getLogger({});
@@ -42,6 +49,12 @@ describe('Packages:Console:Constructor', () => {
   test('[default outputFileName & errorOutputFileName filenames]', (done: Function) => {
     // initializing & calling logger, should create new files
     const logger = getLogger({ name: 'l2' });
+    expect(() => {
+      fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK);
+    }).toThrow();
+    expect(() => {
+      fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
+    }).toThrow();
     logger.log("test if", "files were", "created");
     setTimeout(() => {
       expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
@@ -51,19 +64,25 @@ describe('Packages:Console:Constructor', () => {
 
   });
 
-  test('[Custom filenames for outputFileName & errorOutputFileName]', () => {
+  test('[Custom filenames for outputFileName & errorOutputFileName]', (done: Function) => {
     const l1 = getLogger({ name: 'l1', outputFileName: customOutputFileName, errorOutputFileName: customErrorOutputFileName });
-    l1.log("Hello, world");
-    expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
-    
-    //expect(fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
     expect(() => {
-      fs.accessSync('./tests/packages/console/randomFile.log', fs.constants.R_OK | fs.constants.W_OK);
+      fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
     }).toThrow();
+    expect(() => {
+      fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
+    }).toThrow();
+
+    l1.log("Hello, world");
+    setTimeout(() => {
+      expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+      expect(fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
+      done();
+    }, 200);
   });
 
   test('[default values of toLogInFile]', () => {
-    const logger =getLogger({});
+    const logger = getLogger({});
     allLoggerFunctions.forEach((functionName) => {
       expect(logger.logInFile[functionName]).toBe(true);
     });
@@ -145,13 +164,13 @@ describe('Packages:Console:Constructor', () => {
   test('[custom values of toDisplayInConsole]', () => {
 
     const customAppendTimeStamp = {
-      log: randomBoolean(),
-      error: randomBoolean(),
-      debug: randomBoolean(),
-      info: randomBoolean(),
-      warn: randomBoolean(),
-      trace: randomBoolean(),
-      table: randomBoolean()
+      [functionNamesEnum.log]: randomBoolean(),
+      [functionNamesEnum.error]: randomBoolean(),
+      [functionNamesEnum.warn]: randomBoolean(),
+      [functionNamesEnum.info]: randomBoolean(),
+      [functionNamesEnum.trace]: randomBoolean(),
+      [functionNamesEnum.debug]: randomBoolean(),
+      [functionNamesEnum.table]: randomBoolean(),
     }
 
     const logger = getLogger({ appendTimeStamp: customAppendTimeStamp });

@@ -8,7 +8,6 @@ const deleteFile = (fileName: string) => {
             resolve({});
         } catch (_error) {
         } finally {
-            console.log(`${fileName} deleted`);
             resolve({});
         }
     });
