@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import { getLogger } from '../../../src/index';
 import { consoleConstant } from '../../../src/constants/consoleConstants';
 import { deleteFile, randomBoolean } from '../../utils/index';
@@ -30,20 +29,20 @@ describe('Packages:Console:Constructor', () => {
 
   test('Logger can have an object or nothing as the input', () => {
     const l1 = getLogger({});
-    expect(l1.name).toBe("");
+    expect(l1.getName()).toBe("");
     const l2 = getLogger();
-    expect(l2.name).toBe("");
+    expect(l2.getName()).toBe("");
   });
 
   test('by default logger name is empty string', () => {
     const logger = getLogger({});
-    expect(logger.name).toBe("");
+    expect(logger.getName()).toBe("");
   });
 
   test('Logger name can be changed with options.name value as input', () => {
     const loggerName = "Custom Logger";
     const logger = getLogger({ name: loggerName });
-    expect(logger.name).toBe(loggerName);
+    expect(logger.getName()).toBe(loggerName);
   });
 
   test('[default outputFileName & errorOutputFileName filenames]', (done: Function) => {
@@ -84,7 +83,7 @@ describe('Packages:Console:Constructor', () => {
   test('[default values of toLogInFile]', () => {
     const logger = getLogger({});
     allLoggerFunctions.forEach((functionName) => {
-      expect(logger.logInFile[functionName]).toBe(true);
+      expect(logger.getLogInFile()[functionName]).toBe(true);
     });
   });
 
@@ -102,14 +101,14 @@ describe('Packages:Console:Constructor', () => {
 
     const logger = getLogger({ logInFile: customToLogInFile });
     allLoggerFunctions.forEach((functionName) => {
-      expect(logger.logInFile[functionName]).toBe(customToLogInFile[functionName]);
+      expect(logger.getLogInFile()[functionName]).toBe(customToLogInFile[functionName]);
     });
   });
 
   test('[default values of toDisplayInConsole]', () => {
     const logger = getLogger({});
     allLoggerFunctions.forEach((functionName) => {
-      expect(logger.displayToConsole[functionName]).toBe(true);
+      expect(logger.getDisplayToConsole()[functionName]).toBe(true);
     });
   });
 
@@ -126,14 +125,14 @@ describe('Packages:Console:Constructor', () => {
 
     const logger = getLogger({ displayToConsole: customToDisplayInConsole });
     allLoggerFunctions.forEach((functionName) => {
-      expect(logger.displayToConsole[functionName]).toBe(customToDisplayInConsole[functionName]);
+      expect(logger.getDisplayToConsole()[functionName]).toBe(customToDisplayInConsole[functionName]);
     });
   });
 
   test('[default values of toLogTrace]', () => {
     const logger = getLogger({});
     allLoggerFunctions.forEach((functionName) => {
-      expect(logger.logWithTrace[functionName]).toBe(false);
+      expect(logger.getLogWithTrace()[functionName]).toBe(false);
     });
   });
 
@@ -150,14 +149,14 @@ describe('Packages:Console:Constructor', () => {
 
     const logger = getLogger({ logWithTrace: customToLogTrace });
     allLoggerFunctions.forEach((functionName) => {
-      expect(logger.logWithTrace[functionName]).toBe(customToLogTrace[functionName]);
+      expect(logger.getLogWithTrace()[functionName]).toBe(customToLogTrace[functionName]);
     });
   });
 
   test('[default values of appendTimeStamp]', () => {
     const logger = getLogger({});
     allLoggerFunctions.forEach((functionName) => {
-      expect(logger.appendTimeStamp[functionName]).toBe(true);
+      expect(logger.getAppendTimeStamp()[functionName]).toBe(true);
     });
   });
 
@@ -175,8 +174,92 @@ describe('Packages:Console:Constructor', () => {
 
     const logger = getLogger({ appendTimeStamp: customAppendTimeStamp });
     allLoggerFunctions.forEach((functionName) => {
-      expect(logger.appendTimeStamp[functionName]).toBe(customAppendTimeStamp[functionName]);
+      expect(logger.getAppendTimeStamp()[functionName]).toBe(customAppendTimeStamp[functionName]);
     });
+  });
+
+  test('Test Getters', () => {
+    const customOptions = {
+      name: 'temp',
+      logInFile: {
+        [functionNamesEnum.log]: randomBoolean(),
+        [functionNamesEnum.error]: randomBoolean(),
+        [functionNamesEnum.warn]: randomBoolean(),
+        [functionNamesEnum.info]: randomBoolean(),
+        [functionNamesEnum.trace]: randomBoolean(),
+        [functionNamesEnum.debug]: randomBoolean(),
+        [functionNamesEnum.table]: randomBoolean(),
+      },
+      displayToConsole: {
+        [functionNamesEnum.log]: randomBoolean(),
+        [functionNamesEnum.error]: randomBoolean(),
+        [functionNamesEnum.warn]: randomBoolean(),
+        [functionNamesEnum.info]: randomBoolean(),
+        [functionNamesEnum.trace]: randomBoolean(),
+        [functionNamesEnum.debug]: randomBoolean(),
+        [functionNamesEnum.table]: randomBoolean(),
+      },
+      logWithTrace: {
+        [functionNamesEnum.log]: randomBoolean(),
+        [functionNamesEnum.error]: randomBoolean(),
+        [functionNamesEnum.warn]: randomBoolean(),
+        [functionNamesEnum.info]: randomBoolean(),
+        [functionNamesEnum.trace]: randomBoolean(),
+        [functionNamesEnum.debug]: randomBoolean(),
+        [functionNamesEnum.table]: randomBoolean(),
+      },
+      appendTimeStamp: {
+        [functionNamesEnum.log]: randomBoolean(),
+        [functionNamesEnum.error]: randomBoolean(),
+        [functionNamesEnum.warn]: randomBoolean(),
+        [functionNamesEnum.info]: randomBoolean(),
+        [functionNamesEnum.trace]: randomBoolean(),
+        [functionNamesEnum.debug]: randomBoolean(),
+        [functionNamesEnum.table]: randomBoolean(),
+      },
+      outputFileName: customOutputFileName,
+      errorOutputFileName: customErrorOutputFileName
+    }
+    const logger = getLogger(customOptions);
+    expect(logger.getName()).toBe("temp");
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getLogInFile()[functionName]).toBe(customOptions.logInFile[functionName]);
+    });
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getDisplayToConsole()[functionName]).toBe(customOptions.displayToConsole[functionName]);
+    });
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getLogWithTrace()[functionName]).toBe(customOptions.logWithTrace[functionName]);
+    });
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getAppendTimeStamp()[functionName]).toBe(customOptions.appendTimeStamp[functionName]);
+    });
+  });
+
+  test('test setters', () => {
+    const logger = getLogger({});
+    
+    expect(logger.getName()).toBe("");
+    logger.setName("test:logger");
+    expect(logger.getName()).toBe("test:logger");
+
+    const customLogInFile = {
+      [functionNamesEnum.log]: randomBoolean(),
+      [functionNamesEnum.error]: randomBoolean(),
+      [functionNamesEnum.warn]: randomBoolean(),
+      [functionNamesEnum.info]: randomBoolean(),
+      [functionNamesEnum.trace]: randomBoolean(),
+      [functionNamesEnum.debug]: randomBoolean(),
+      [functionNamesEnum.table]: randomBoolean(),
+    };
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getLogInFile()[functionName]).toBe(true);
+    });
+    logger.setLogInFile(customLogInFile);
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getLogInFile()[functionName]).toBe(customLogInFile[functionName]);
+    });
+    //continue
   });
 
 });
