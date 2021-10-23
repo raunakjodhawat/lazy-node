@@ -243,7 +243,7 @@ describe('Packages:Console:Constructor', () => {
     logger.setName("test:logger");
     expect(logger.getName()).toBe("test:logger");
 
-    const customLogInFile = {
+    const customValues = {
       [functionNamesEnum.log]: randomBoolean(),
       [functionNamesEnum.error]: randomBoolean(),
       [functionNamesEnum.warn]: randomBoolean(),
@@ -255,11 +255,34 @@ describe('Packages:Console:Constructor', () => {
     allLoggerFunctions.forEach((functionName) => {
       expect(logger.getLogInFile()[functionName]).toBe(true);
     });
-    logger.setLogInFile(customLogInFile);
+    logger.setLogInFile(customValues);
     allLoggerFunctions.forEach((functionName) => {
-      expect(logger.getLogInFile()[functionName]).toBe(customLogInFile[functionName]);
+      expect(logger.getLogInFile()[functionName]).toBe(customValues[functionName]);
     });
-    //continue
+
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getDisplayToConsole()[functionName]).toBe(true);
+    });
+    logger.setDisplayToConsole(customValues);
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getDisplayToConsole()[functionName]).toBe(customValues[functionName]);
+    });
+
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getLogWithTrace()[functionName]).toBe(false);
+    });
+    logger.setLogWithTrace(customValues);
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getLogWithTrace()[functionName]).toBe(customValues[functionName]);
+    });
+
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getAppendTimeStamp()[functionName]).toBe(true);
+    });
+    logger.setAppendTimeStamp(customValues);
+    allLoggerFunctions.forEach((functionName) => {
+      expect(logger.getAppendTimeStamp()[functionName]).toBe(customValues[functionName]);
+    });
   });
 
 });
