@@ -13,18 +13,25 @@ const allLoggerFunctions = [functionNamesEnum.log, functionNamesEnum.debug, func
  */
 describe('Packages:Console:Constructor', () => {
   
-  afterAll(async() => {
-    await deleteFile(consoleConstant.outputFileName);
-    await deleteFile(consoleConstant.errorOutputFileName);
-    await deleteFile(customOutputFileName);
-    await deleteFile(customErrorOutputFileName);
+  afterAll((done: Function) => {
+    deleteFile(consoleConstant.outputFileName);
+    deleteFile(consoleConstant.errorOutputFileName);
+    deleteFile(customOutputFileName);
+    deleteFile(customErrorOutputFileName);
+
+    setTimeout(() => {
+      done();
+    }, 500);
   });
 
-  beforeEach(async () => {
-    await deleteFile(consoleConstant.outputFileName);
-    await deleteFile(consoleConstant.errorOutputFileName);
-    await deleteFile(customOutputFileName);
-    await deleteFile(customErrorOutputFileName);
+  beforeEach((done: Function) => {
+    deleteFile(consoleConstant.outputFileName);
+    deleteFile(consoleConstant.errorOutputFileName);
+    deleteFile(customOutputFileName);
+    deleteFile(customErrorOutputFileName);
+    setTimeout(() => {
+      done();
+    }, 500);
   });
 
   test('Logger can have an object or nothing as the input', () => {
@@ -48,12 +55,6 @@ describe('Packages:Console:Constructor', () => {
   test('[default outputFileName & errorOutputFileName filenames]', (done: Function) => {
     // initializing & calling logger, should create new files
     const logger = getLogger({ name: 'l2' });
-    expect(() => {
-      fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK);
-    }).toThrow();
-    expect(() => {
-      fs.accessSync(consoleConstant.errorOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
-    }).toThrow();
     logger.log("test if", "files were", "created");
     setTimeout(() => {
       expect(fs.accessSync(consoleConstant.outputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
