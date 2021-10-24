@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest --no-cache --coverage",
     "test:no-cache": "jest --clear-cache && npm run test",
-    "build": "rm -rf ./dist && tsc --declaration"
+    "build": "rm -rf ./dist && tsc --declaration",
+    "build:minor": "npm run build && npm version patch",
+    "build:minor:release": "npm run build:minor && npm publish && git push"
   },
   "files": [
     "dist"
