@@ -1,14 +1,12 @@
 {
   "name": "node-bridge-sdk",
-  "version": "0.0.12",
+  "version": "0.0.11",
   "description": "Improvising NodeJS's features",
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest --no-cache --coverage",
     "test:no-cache": "jest --clear-cache && npm run test",
-    "build": "rm -rf ./dist && tsc --declaration",
-    "build:minor": "npm run build && npm version patch",
-    "build:minor:release": "npm run build:minor && npm publish && git push"
+    "build": "rm -rf ./dist && tsc --declaration"
   },
   "files": [
     "dist"
