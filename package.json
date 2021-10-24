@@ -1,6 +1,6 @@
 {
   "name": "node-bridge-sdk",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Improvising NodeJS's features",
   "main": "./dist/src/index.js",
   "scripts": {
