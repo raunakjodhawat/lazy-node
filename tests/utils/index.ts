@@ -15,9 +15,7 @@ const randomBoolean = () => {
 }
 
 const doesFileContain = (fileName: string, searchKey: string, cb: Function) => {
-    console.warn(path.resolve("stdout.log"));
-    fs.readFile(path.resolve(fileName), (_error, data) => {
-        console.warn(_error);
+    fs.readFile(fileName, "utf8", (_error, data) => {
         cb(data.includes(searchKey));
     });
 }
