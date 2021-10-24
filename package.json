@@ -1,10 +1,11 @@
 {
   "name": "node-bridge-sdk",
   "version": "0.0.11",
-  "description": "Making hidden features of NodeJS accessible to the developer community",
+  "description": "Improvising NodeJS's features",
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest --no-cache --coverage",
+    "test:no-cache": "jest --clear-cache && npm run test",
     "build": "rm -rf ./dist && tsc --declaration"
   },
   "files": [
@@ -12,22 +13,20 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raunakjodhawat/lazy-node.git"
+    "url": "git+https://github.com/raunakjodhawat/node-bridge-sdk.git"
   },
   "keywords": [
     "nodejs",
-    "queues",
-    "buffers",
     "console",
-    "debug",
-    "diagnostic"
+    "logger",
+    "debug"
   ],
   "author": "Raunak Jodhawat",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/raunakjodhawat/lazy-node/issues"
+    "url": "https://github.com/raunakjodhawat/node-bridge-sdk/issues"
   },
-  "homepage": "https://github.com/raunakjodhawat/lazy-node#readme",
+  "homepage": "https://github.com/raunakjodhawat/node-bridge-sdk#readme",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@types/jest": "^27.0.2",
