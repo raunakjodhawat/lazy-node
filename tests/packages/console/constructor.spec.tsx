@@ -31,7 +31,7 @@ describe('Packages:Console:Constructor', () => {
     deleteFile(customErrorOutputFileName);
     setTimeout(() => {
       done();
-    }, 500);
+    }, 1000);
   });
 
   test('Logger can have an object or nothing as the input', () => {
