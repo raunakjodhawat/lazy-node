@@ -211,7 +211,7 @@ describe('Packages:Console:functionality', () => {
     }, 100);
   });
 
-  test.skip('logger.trace()', () => {
+  test('logger.trace()', () => {
     const logger = getLogger({});
     const message = "this is a test message";
     const logs: string[] = [];
@@ -247,7 +247,7 @@ describe('Packages:Console:functionality', () => {
     expect(logs[3]).toMatch(/\[trace\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\s+this is a test message/g);
   });
 
-  test.skip('logger.debug()', () => {
+  test('logger.debug()', (done: Function) => {
     const logger = getLogger({});
     const message = "this is a test message";
     const logs: string[] = [];
@@ -281,9 +281,19 @@ describe('Packages:Console:functionality', () => {
     logger.setDisplayToConsole({debug: false});
     logger.debug(message);
     expect(logs[3]).toMatch(/\[debug\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\s+this is a test message/g);
+
+    logger.setLogInFile({debug: true});
+    logger.debug(message);
+    setTimeout(() => {
+      // test if log get added to the file
+      doesFileContain(consoleConstant.outputFileName, logs[4], (response: Boolean) => {
+        expect(response).toBe(true);
+        done();
+      });
+    }, 100);
   });
 
-  test.skip('logger.info()', () => {
+  test('logger.info()', (done: Function) => {
     const logger = getLogger({});
     const message = "this is a test message";
     const logs: string[] = [];
@@ -317,5 +327,16 @@ describe('Packages:Console:functionality', () => {
     logger.setDisplayToConsole({info: false});
     logger.info(message);
     expect(logs[3]).toMatch(/\[info\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\s+this is a test message/g);
+
+    logger.setLogInFile({info: true});
+    logger.info(message);
+    setTimeout(() => {
+      // test if log get added to the file
+      doesFileContain(consoleConstant.outputFileName, logs[4], (response: Boolean) => {
+        expect(response).toBe(true);
+        done();
+      });
+    }, 100);
   });
+
 });
