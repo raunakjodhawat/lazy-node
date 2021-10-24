@@ -27,7 +27,7 @@ describe('Packages:Console:functionality', () => {
     }, 500);
   });
 
-  test('logger.log()', (done) => {
+  test('logger.log()', (done: Function) => {
     const logger = getLogger({});
     const message = "this is a test message";
     const logs: string[] = [];
@@ -70,10 +70,10 @@ describe('Packages:Console:functionality', () => {
         expect(response).toBe(true);
         done();
       });
-    }, 500);
+    }, 100);
   });
 
-  test('logger.error()', (done) => {
+  test('logger.error()', (done: Function) => {
     const logger = getLogger({});
     const message = "this is a test message";
     const logs: string[] = [];
@@ -116,10 +116,10 @@ describe('Packages:Console:functionality', () => {
         expect(response).toBe(true);
         done();
       });
-    }, 500);
+    }, 100);
   });
 
-  test.skip('logger.warn()', () => {
+  test('logger.warn()', (done: Function) => {
     const logger = getLogger({});
     const message = "this is a test message";
     const logs: string[] = [];
@@ -153,9 +153,19 @@ describe('Packages:Console:functionality', () => {
     logger.setDisplayToConsole({warn: false});
     logger.warn(message);
     expect(logs[3]).toMatch(/\[warn\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\s+this is a test message/g);
+
+    logger.setLogInFile({warn: true});
+    logger.warn(message);
+    setTimeout(() => {
+      // test if log get added to the file
+      doesFileContain(consoleConstant.errorOutputFileName, logs[4], (response: Boolean) => {
+        expect(response).toBe(true);
+        done();
+      });
+    }, 100);
   });
 
-  test.skip('logger.table()', () => {
+  test('logger.table()', (done: Function) => {
     const logger = getLogger({});
     const message = "this is a test message";
     const logs: string[] = [];
@@ -189,6 +199,16 @@ describe('Packages:Console:functionality', () => {
     logger.setDisplayToConsole({table: false});
     logger.table(message);
     expect(logs[3]).toMatch(/\[table\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\s+this is a test message/g);
+
+    logger.setLogInFile({table: true});
+    logger.table(message);
+    setTimeout(() => {
+      // test if log get added to the file
+      doesFileContain(consoleConstant.outputFileName, logs[4], (response: Boolean) => {
+        expect(response).toBe(true);
+        done();
+      });
+    }, 100);
   });
 
   test.skip('logger.trace()', () => {
