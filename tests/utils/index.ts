@@ -1,10 +1,12 @@
 import * as fs from 'fs';
-import { exec } from 'child_process';
+import * as path from 'path';
 
 const deleteFile = (fileName: string) => {
     try {
-        fs.unlinkSync(fileName);
+        fs.unlinkSync(path.resolve(fileName));
     } catch (_error) {
+    } finally {
+        return;
     }
 }
 
@@ -12,13 +14,8 @@ const randomBoolean = () => {
     return (Math.floor(Math.random() * 2) % 2 == 0);
 }
 
-const getLastLine = (fileName: string, cb: Function) => {
-    exec(`tail -n 1 ${fileName}`,  (_error, lastLineContent, _stderr) => {
-        cb(lastLineContent);
-    });
-}
 const doesFileContain = (fileName: string, searchKey: string, cb: Function) => {
-    fs.readFile(fileName, (_error, data) => {
+    fs.readFile(fileName, "utf8", (_error, data) => {
         cb(data.includes(searchKey));
     });
 }
@@ -26,6 +23,5 @@ const doesFileContain = (fileName: string, searchKey: string, cb: Function) => {
 export {
     deleteFile,
     randomBoolean,
-    getLastLine,
     doesFileContain
 }

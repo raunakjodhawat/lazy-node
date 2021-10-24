@@ -4,14 +4,14 @@ import * as fs from 'fs';
 import { functionNamesEnum, minRequiredLoggerOptionsType, allLogFunctionsType } from './types';
 
 export default class Logger {
-    name: string;
-    logInFile: allLogFunctionsType;
-    displayToConsole: allLogFunctionsType
-    logWithTrace: allLogFunctionsType;
-    appendTimeStamp: allLogFunctionsType;
-    output: fs.WriteStream;
-    errorOutput: fs.WriteStream;
-    logger: Console;
+    protected name: string;
+    protected logInFile: allLogFunctionsType;
+    protected displayToConsole: allLogFunctionsType
+    protected logWithTrace: allLogFunctionsType;
+    protected appendTimeStamp: allLogFunctionsType;
+    protected output: fs.WriteStream;
+    protected errorOutput: fs.WriteStream;
+    protected logger: Console;
 
     constructor(options: minRequiredLoggerOptionsType) {
         this.name = options.name;
@@ -40,9 +40,11 @@ export default class Logger {
         }
 
         if ((this.displayToConsole[functionName]) || (!this.displayToConsole[functionName] && !this.logInFile[functionName])) {
-            console.trace(printMessage);
-        } else {
-            console[functionName](printMessage);
+            if (this.logWithTrace[functionName]) {
+                console.trace(printMessage);
+            } else {
+                console[functionName](printMessage);
+            }
         }
     }
 
@@ -72,5 +74,45 @@ export default class Logger {
 
     trace(...message: any[]) {
         this.printLog(functionNamesEnum.trace, ...message);
+    }
+
+    getName(): string {
+        return this.name;
+    }
+
+    setName(name: string) {
+        this.name = name;
+    }
+
+    getLogInFile(): allLogFunctionsType {
+        return this.logInFile;
+    }
+
+    setLogInFile(logInFile: allLogFunctionsType) {
+        this.logInFile = logInFile;
+    }
+
+    getDisplayToConsole(): allLogFunctionsType {
+        return this.displayToConsole;
+    }
+
+    setDisplayToConsole(displayToConsole: allLogFunctionsType) {
+        this.displayToConsole = displayToConsole;
+    }
+
+    getLogWithTrace(): allLogFunctionsType {
+        return this.logWithTrace;
+    }
+
+    setLogWithTrace(logWithTrace: allLogFunctionsType) {
+        this.logWithTrace = logWithTrace;
+    }
+
+    getAppendTimeStamp(): allLogFunctionsType {
+        return this.appendTimeStamp;
+    }
+
+    setAppendTimeStamp(appendTimeStamp: allLogFunctionsType) {
+        this.appendTimeStamp = appendTimeStamp;
     }
 }
