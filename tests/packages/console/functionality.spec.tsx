@@ -211,7 +211,7 @@ describe('Packages:Console:functionality', () => {
     }, 100);
   });
 
-  test('logger.trace()', () => {
+  test('logger.trace()', (done: Function) => {
     const logger = getLogger({});
     const message = "this is a test message";
     const logs: string[] = [];
@@ -245,6 +245,16 @@ describe('Packages:Console:functionality', () => {
     logger.setDisplayToConsole({trace: false});
     logger.trace(message);
     expect(logs[3]).toMatch(/\[trace\]\(\)\:\[(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})\.(\d{3})Z\](\s+)\:\s+this is a test message/g);
+
+    logger.setLogInFile({trace: true});
+    logger.trace(message);
+    setTimeout(() => {
+      // test if log get added to the file
+      doesFileContain(consoleConstant.errorOutputFileName, message, (response: Boolean) => {
+        expect(response).toBe(true);
+        done();
+      });
+    }, 100);
   });
 
   test('logger.debug()', (done: Function) => {
