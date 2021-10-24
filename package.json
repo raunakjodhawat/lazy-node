@@ -2,7 +2,7 @@
   "name": "node-bridge-sdk",
   "version": "0.0.13",
   "description": "Improvising NodeJS's features",
-  "main": "./dist/index.js",
+  "main": "./dist/src/index.js",
   "scripts": {
     "test": "jest --no-cache --coverage",
     "test:no-cache": "jest --clear-cache && npm run test",
