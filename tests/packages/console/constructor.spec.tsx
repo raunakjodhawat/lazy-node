@@ -31,7 +31,7 @@ describe('Packages:Console:Constructor', () => {
     deleteFile(customErrorOutputFileName);
     setTimeout(() => {
       done();
-    }, 1000);
+    }, 500);
   });
 
   test('Logger can have an object or nothing as the input', () => {
@@ -66,13 +66,6 @@ describe('Packages:Console:Constructor', () => {
 
   test('[Custom filenames for outputFileName & errorOutputFileName]', (done: Function) => {
     const l1 = getLogger({ name: 'l1', outputFileName: customOutputFileName, errorOutputFileName: customErrorOutputFileName });
-    expect(() => {
-      fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
-    }).toThrow();
-    expect(() => {
-      fs.accessSync(customErrorOutputFileName, fs.constants.R_OK | fs.constants.W_OK);
-    }).toThrow();
-
     l1.log("Hello, world");
     setTimeout(() => {
       expect(fs.accessSync(customOutputFileName, fs.constants.R_OK | fs.constants.W_OK)).toBe(undefined);
